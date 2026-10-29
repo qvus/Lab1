@@ -1,6 +1,6 @@
 """Консольное приложение «Домашние животные»."""
 from datetime import date
-from typing import Callable, Dict/Users/userr/Downloads/pets/src/pets/models.py
+from typing import Callable, Dict
 
 from exceptions import PetsError
 from json_storage import load_json, save_json
