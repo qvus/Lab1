@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='utf-8'?>
+<registry>
+  <owner name="Иван" phone="+79991234567">
+    <pet type="Dog">
+      <name>Рекс</name>
+      <age>3</age>
+      <weight>25.5</weight>
+      <breed>Овчарка</breed>
+      <trained>true</trained>
+      <vaccinations>
+        <vaccination name="Бешенство" date="2025-01-10" />
+      </vaccinations>
+    </pet>
+    <pet type="Cat">
+      <name>Мурка</name>
+      <age>2</age>
+      <weight>4.0</weight>
+      <indoor>false</indoor>
+      <vaccinations />
+    </pet>
+  </owner>
+  <owner name="Анна" phone="+79990001122">
+    <pet type="Bird">
+      <name>Кеша</name>
+      <age>1</age>
+      <weight>0.1</weight>
+      <can_talk>true</can_talk>
+      <vaccinations />
+    </pet>
+  </owner>
+</registry>

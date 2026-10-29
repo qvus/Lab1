@@ -1,0 +1,46 @@
+{
+  "owners": [
+    {
+      "name": "Иван",
+      "phone": "+79991234567",
+      "pets": [
+        {
+          "type": "Dog",
+          "name": "Рекс",
+          "age": 3,
+          "weight": 25.5,
+          "breed": "Овчарка",
+          "trained": true,
+          "vaccinations": [
+            {
+              "name": "Бешенство",
+              "date": "2025-01-10"
+            }
+          ]
+        },
+        {
+          "type": "Cat",
+          "name": "Мурка",
+          "age": 2,
+          "weight": 4.0,
+          "indoor": false,
+          "vaccinations": []
+        }
+      ]
+    },
+    {
+      "name": "Анна",
+      "phone": "+79990001122",
+      "pets": [
+        {
+          "type": "Bird",
+          "name": "Кеша",
+          "age": 1,
+          "weight": 0.1,
+          "can_talk": true,
+          "vaccinations": []
+        }
+      ]
+    }
+  ]
+}
