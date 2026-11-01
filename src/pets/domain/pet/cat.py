@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from domain.pet.nickname import Nickname
 from domain.pet.pet import Pet
 from domain.pet.weight import Weight
@@ -11,8 +9,8 @@ class Cat(Pet):
 
     def __init__(
             self,
-            pet_id: UUID,
-            owner_id: UUID,
+            pet_id: int,
+            owner_id: int,
             nickname: Nickname,
             weight: Weight,
             lives_indoor: bool

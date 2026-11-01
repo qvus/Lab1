@@ -1,5 +1,4 @@
 from typing import Protocol
-from uuid import UUID
 
 from domain.owner.owner import Owner
 
@@ -10,7 +9,7 @@ class OwnerRepository(Protocol):
     def add(self, owner: Owner) -> None:
         raise NotImplementedError
 
-    def get_by_id(self, owner_id: UUID) -> Owner | None:
+    def get_by_id(self, owner_id: int) -> Owner | None:
         raise NotImplementedError
 
     def get_all(self) -> list[Owner]:
@@ -19,5 +18,5 @@ class OwnerRepository(Protocol):
     def update(self, owner: Owner) -> None:
         raise NotImplementedError
 
-    def delete(self, owner_id: UUID) -> None:
+    def delete(self, owner_id: int) -> None:
         raise NotImplementedError

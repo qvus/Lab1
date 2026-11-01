@@ -1,6 +1,5 @@
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from uuid import UUID
 
 from domain.exceptions import (
     AlreadyExistsError,
@@ -33,7 +32,7 @@ class XmlOwnerRepository:
         records.append(self.__to_element(owner))
         write_records(self.__file_path, ROOT, records)
 
-    def get_by_id(self, owner_id: UUID) -> Owner | None:
+    def get_by_id(self, owner_id: int) -> Owner | None:
         records = read_records(self.__file_path, ROOT)
         index = self.__find_index(records, owner_id)
 
@@ -58,7 +57,7 @@ class XmlOwnerRepository:
         records[index] = self.__to_element(owner)
         write_records(self.__file_path, ROOT, records)
 
-    def delete(self, owner_id: UUID) -> None:
+    def delete(self, owner_id: int) -> None:
         records = read_records(self.__file_path, ROOT)
         index = self.__find_index(records, owner_id)
 
@@ -70,7 +69,7 @@ class XmlOwnerRepository:
 
     @staticmethod
     def __find_index(
-            records: list[ET.Element], owner_id: UUID
+            records: list[ET.Element], owner_id: int
     ) -> int | None:
         for index, element in enumerate(records):
             if element.findtext("id") == str(owner_id):
@@ -90,7 +89,7 @@ class XmlOwnerRepository:
     def __to_owner(self, element: ET.Element) -> Owner:
         try:
             return Owner(
-                owner_id=UUID(read_text(element, "id")),
+                owner_id=int(read_text(element, "id")),
                 name=OwnerName(read_text(element, "name")),
             )
         except (ValueError, ValidationError) as error:

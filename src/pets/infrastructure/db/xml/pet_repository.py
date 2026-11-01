@@ -1,6 +1,5 @@
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from uuid import UUID
 
 from domain.exceptions import (
     AlreadyExistsError,
@@ -37,7 +36,7 @@ class XmlPetRepository:
         records.append(self.__to_element(pet))
         write_records(self.__file_path, ROOT, records)
 
-    def get_by_id(self, pet_id: UUID) -> Pet | None:
+    def get_by_id(self, pet_id: int) -> Pet | None:
         records = read_records(self.__file_path, ROOT)
         index = self.__find_index(records, pet_id)
 
@@ -62,7 +61,7 @@ class XmlPetRepository:
         records[index] = self.__to_element(pet)
         write_records(self.__file_path, ROOT, records)
 
-    def delete(self, pet_id: UUID) -> None:
+    def delete(self, pet_id: int) -> None:
         records = read_records(self.__file_path, ROOT)
         index = self.__find_index(records, pet_id)
 
@@ -74,7 +73,7 @@ class XmlPetRepository:
 
     @staticmethod
     def __find_index(
-            records: list[ET.Element], pet_id: UUID
+            records: list[ET.Element], pet_id: int
     ) -> int | None:
         for index, element in enumerate(records):
             if element.findtext("id") == str(pet_id):
@@ -107,8 +106,8 @@ class XmlPetRepository:
     def __to_pet(self, element: ET.Element) -> Pet:
         try:
             kind = read_text(element, "kind")
-            pet_id = UUID(read_text(element, "id"))
-            owner_id = UUID(read_text(element, "owner_id"))
+            pet_id = int(read_text(element, "id"))
+            owner_id = int(read_text(element, "owner_id"))
             nickname = Nickname(read_text(element, "nickname"))
             weight = Weight(float(read_text(element, "weight")))
 

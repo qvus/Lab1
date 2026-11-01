@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import Any
-from uuid import UUID
 
 from domain.exceptions import (
     AlreadyExistsError,
@@ -33,7 +32,7 @@ class JsonPetRepository:
         records.append(self.__to_dict(pet))
         write_records(self.__file_path, ROOT, records)
 
-    def get_by_id(self, pet_id: UUID) -> Pet | None:
+    def get_by_id(self, pet_id: int) -> Pet | None:
         records = read_records(self.__file_path, ROOT)
         index = self.__find_index(records, pet_id)
 
@@ -58,7 +57,7 @@ class JsonPetRepository:
         records[index] = self.__to_dict(pet)
         write_records(self.__file_path, ROOT, records)
 
-    def delete(self, pet_id: UUID) -> None:
+    def delete(self, pet_id: int) -> None:
         records = read_records(self.__file_path, ROOT)
         index = self.__find_index(records, pet_id)
 
@@ -70,10 +69,10 @@ class JsonPetRepository:
 
     @staticmethod
     def __find_index(
-            records: list[dict[str, Any]], pet_id: UUID
+            records: list[dict[str, Any]], pet_id: int
     ) -> int | None:
         for index, record in enumerate(records):
-            if record.get("id") == str(pet_id):
+            if record.get("id") == pet_id:
                 return index
 
         return None
@@ -81,9 +80,9 @@ class JsonPetRepository:
     @staticmethod
     def __to_dict(pet: Pet) -> dict[str, Any]:
         record: dict[str, Any] = {
-            "id": str(pet.id),
+            "id": pet.id,
             "kind": pet.kind,
-            "owner_id": str(pet.owner_id),
+            "owner_id": pet.owner_id,
             "nickname": pet.nickname.value,
             "weight": pet.weight.kilograms,
         }
@@ -100,8 +99,8 @@ class JsonPetRepository:
         try:
             if record["kind"] == Cat.kind:
                 return Cat(
-                    pet_id=UUID(record["id"]),
-                    owner_id=UUID(record["owner_id"]),
+                    pet_id=int(record["id"]),
+                    owner_id=int(record["owner_id"]),
                     nickname=Nickname(record["nickname"]),
                     weight=Weight(record["weight"]),
                     lives_indoor=record["lives_indoor"],
@@ -109,8 +108,8 @@ class JsonPetRepository:
 
             if record["kind"] == Dog.kind:
                 return Dog(
-                    pet_id=UUID(record["id"]),
-                    owner_id=UUID(record["owner_id"]),
+                    pet_id=int(record["id"]),
+                    owner_id=int(record["owner_id"]),
                     nickname=Nickname(record["nickname"]),
                     weight=Weight(record["weight"]),
                     walks_per_day=record["walks_per_day"],

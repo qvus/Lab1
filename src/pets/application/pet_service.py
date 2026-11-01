@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from domain.exceptions import NotFoundError, ValidationError
 from domain.owner.repository import OwnerRepository
 from domain.pet.nickname import Nickname
@@ -18,6 +16,11 @@ class PetService:
         self.__pet_repository = pet_repository
         self.__owner_repository = owner_repository
 
+    # Новый id на единицу больше самого большого из сохраненных.
+    def next_id(self) -> int:
+        ids = [pet.id for pet in self.get_all_pets()]
+        return max(ids, default=0) + 1
+
     def add_pet(self, pet: Pet) -> None:
         if self.__owner_repository.get_by_id(pet.owner_id) is None:
             raise NotFoundError(f"Владелец {pet.owner_id} не найден")
@@ -25,7 +28,7 @@ class PetService:
         self.__check_nickname_free(pet.owner_id, pet.nickname)
         self.__pet_repository.add(pet)
 
-    def get_pet(self, pet_id: UUID) -> Pet:
+    def get_pet(self, pet_id: int) -> Pet:
         pet = self.__pet_repository.get_by_id(pet_id)
 
         if pet is None:
@@ -46,7 +49,7 @@ class PetService:
         ]
 
     def change_pet(
-            self, pet_id: UUID, nickname: Nickname, weight: Weight
+            self, pet_id: int, nickname: Nickname, weight: Weight
     ) -> None:
         pet = self.get_pet(pet_id)
 
@@ -56,13 +59,13 @@ class PetService:
         pet.change(nickname, weight)
         self.__pet_repository.update(pet)
 
-    def delete_pet(self, pet_id: UUID) -> None:
+    def delete_pet(self, pet_id: int) -> None:
         self.get_pet(pet_id)
         self.__pet_repository.delete(pet_id)
 
     # У одного владельца не может быть двух животных с одинаковой кличкой.
     def __check_nickname_free(
-            self, owner_id: UUID, nickname: Nickname
+            self, owner_id: int, nickname: Nickname
     ) -> None:
         if any(
             pet.owner_id == owner_id

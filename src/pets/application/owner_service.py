@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from domain.exceptions import NotFoundError, ValidationError
 from domain.owner.owner import Owner
 from domain.owner.owner_name import OwnerName
@@ -17,10 +15,15 @@ class OwnerService:
         self.__owner_repository = owner_repository
         self.__pet_repository = pet_repository
 
+    # Новый id на единицу больше самого большого из сохраненных.
+    def next_id(self) -> int:
+        ids = [owner.id for owner in self.get_all_owners()]
+        return max(ids, default=0) + 1
+
     def add_owner(self, owner: Owner) -> None:
         self.__owner_repository.add(owner)
 
-    def get_owner(self, owner_id: UUID) -> Owner:
+    def get_owner(self, owner_id: int) -> Owner:
         owner = self.__owner_repository.get_by_id(owner_id)
 
         if owner is None:
@@ -31,14 +34,14 @@ class OwnerService:
     def get_all_owners(self) -> list[Owner]:
         return self.__owner_repository.get_all()
 
-    def rename_owner(self, owner_id: UUID, name: OwnerName) -> None:
+    def rename_owner(self, owner_id: int, name: OwnerName) -> None:
         owner = self.get_owner(owner_id)
         owner.rename(name)
         self.__owner_repository.update(owner)
 
     # Владельца с животными удалять нельзя: у животных останется
     # ссылка на несуществующего владельца.
-    def delete_owner(self, owner_id: UUID) -> None:
+    def delete_owner(self, owner_id: int) -> None:
         self.get_owner(owner_id)
 
         pets = self.__pet_repository.get_all()

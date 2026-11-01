@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from typing import ClassVar
-from uuid import UUID
 
 from domain.pet.nickname import Nickname
 from domain.pet.weight import Weight
@@ -14,8 +13,8 @@ class Pet(ABC):
 
     def __init__(
             self,
-            pet_id: UUID,
-            owner_id: UUID,
+            pet_id: int,
+            owner_id: int,
             nickname: Nickname,
             weight: Weight
     ) -> None:
@@ -29,11 +28,11 @@ class Pet(ABC):
         self.__weight = weight
 
     @property
-    def id(self) -> UUID:
+    def id(self) -> int:
         return self.__id
 
     @property
-    def owner_id(self) -> UUID:
+    def owner_id(self) -> int:
         return self.__owner_id
 
     @property

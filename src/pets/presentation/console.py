@@ -1,7 +1,6 @@
 # readline включает стрелки и историю ввода в input().
 import readline  # noqa: F401
 from collections.abc import Callable
-from uuid import UUID, uuid4
 
 from application.owner_service import OwnerService
 from application.pet_service import PetService
@@ -54,15 +53,6 @@ def ask_float(prompt: str) -> float:
         return float(raw)
     except ValueError as error:
         raise ValidationError("Введите число") from error
-
-
-def ask_uuid(prompt: str) -> UUID:
-    raw = read_line(prompt).strip()
-
-    try:
-        return UUID(raw)
-    except ValueError as error:
-        raise ValidationError("Некорректный id") from error
 
 
 def ask_bool(prompt: str) -> bool:
@@ -140,20 +130,23 @@ class Console:
             print(f"{owner.id} | {owner.name.value}")
 
     def __add_owner(self) -> None:
-        owner = Owner(uuid4(), OwnerName(read_line("Имя владельца: ")))
+        owner = Owner(
+            self.__owner_service.next_id(),
+            OwnerName(read_line("Имя владельца: ")),
+        )
 
         self.__owner_service.add_owner(owner)
         print(f"Владелец добавлен, id: {owner.id}")
 
     def __rename_owner(self) -> None:
-        owner_id = ask_uuid("id владельца: ")
+        owner_id = ask_int("id владельца: ")
         name = OwnerName(read_line("Новое имя: "))
 
         self.__owner_service.rename_owner(owner_id, name)
         print("Имя изменено")
 
     def __delete_owner(self) -> None:
-        self.__owner_service.delete_owner(ask_uuid("id владельца: "))
+        self.__owner_service.delete_owner(ask_int("id владельца: "))
         print("Владелец удален")
 
     def __show_pets(self) -> None:
@@ -172,7 +165,7 @@ class Console:
             self.__print_pet(pet)
 
     def __add_pet(self) -> None:
-        owner_id = ask_uuid("id владельца: ")
+        owner_id = ask_int("id владельца: ")
         kind = read_line("Вид: 1 - кошка, 2 - собака: ").strip()
         nickname = Nickname(read_line("Кличка: "))
         weight = Weight(ask_float("Вес, кг: "))
@@ -180,7 +173,7 @@ class Console:
         pet: Pet
         if kind == "1":
             pet = Cat(
-                pet_id=uuid4(),
+                pet_id=self.__pet_service.next_id(),
                 owner_id=owner_id,
                 nickname=nickname,
                 weight=weight,
@@ -188,7 +181,7 @@ class Console:
             )
         elif kind == "2":
             pet = Dog(
-                pet_id=uuid4(),
+                pet_id=self.__pet_service.next_id(),
                 owner_id=owner_id,
                 nickname=nickname,
                 weight=weight,
@@ -201,7 +194,7 @@ class Console:
         print(f"Животное добавлено, id: {pet.id}")
 
     def __change_pet(self) -> None:
-        pet_id = ask_uuid("id животного: ")
+        pet_id = ask_int("id животного: ")
         nickname = Nickname(read_line("Новая кличка: "))
         weight = Weight(ask_float("Новый вес, кг: "))
 
@@ -209,7 +202,7 @@ class Console:
         print("Животное изменено")
 
     def __delete_pet(self) -> None:
-        self.__pet_service.delete_pet(ask_uuid("id животного: "))
+        self.__pet_service.delete_pet(ask_int("id животного: "))
         print("Животное удалено")
 
     @staticmethod

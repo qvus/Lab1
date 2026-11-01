@@ -1,5 +1,4 @@
 from typing import Protocol
-from uuid import UUID
 
 from domain.pet.pet import Pet
 
@@ -9,7 +8,7 @@ class PetRepository(Protocol):
     def add(self, pet: Pet) -> None:
         raise NotImplementedError
 
-    def get_by_id(self, pet_id: UUID) -> Pet | None:
+    def get_by_id(self, pet_id: int) -> Pet | None:
         raise NotImplementedError
 
     def get_all(self) -> list[Pet]:
@@ -18,5 +17,5 @@ class PetRepository(Protocol):
     def update(self, pet: Pet) -> None:
         raise NotImplementedError
 
-    def delete(self, pet_id: UUID) -> None:
+    def delete(self, pet_id: int) -> None:
         raise NotImplementedError

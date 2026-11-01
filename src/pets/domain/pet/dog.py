@@ -1,5 +1,3 @@
-from uuid import UUID
-
 from domain.exceptions import ValidationError
 from domain.pet.nickname import Nickname
 from domain.pet.pet import Pet
@@ -15,8 +13,8 @@ class Dog(Pet):
 
     def __init__(
             self,
-            pet_id: UUID,
-            owner_id: UUID,
+            pet_id: int,
+            owner_id: int,
             nickname: Nickname,
             weight: Weight,
             walks_per_day: int

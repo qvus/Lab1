@@ -1,6 +1,5 @@
 from pathlib import Path
 from typing import Any
-from uuid import UUID
 
 from domain.exceptions import (
     AlreadyExistsError,
@@ -30,7 +29,7 @@ class JsonOwnerRepository:
         records.append(self.__to_dict(owner))
         write_records(self.__file_path, ROOT, records)
 
-    def get_by_id(self, owner_id: UUID) -> Owner | None:
+    def get_by_id(self, owner_id: int) -> Owner | None:
         records = read_records(self.__file_path, ROOT)
         index = self.__find_index(records, owner_id)
 
@@ -55,7 +54,7 @@ class JsonOwnerRepository:
         records[index] = self.__to_dict(owner)
         write_records(self.__file_path, ROOT, records)
 
-    def delete(self, owner_id: UUID) -> None:
+    def delete(self, owner_id: int) -> None:
         records = read_records(self.__file_path, ROOT)
         index = self.__find_index(records, owner_id)
 
@@ -67,24 +66,24 @@ class JsonOwnerRepository:
 
     @staticmethod
     def __find_index(
-            records: list[dict[str, Any]], owner_id: UUID
+            records: list[dict[str, Any]], owner_id: int
     ) -> int | None:
         for index, record in enumerate(records):
-            if record.get("id") == str(owner_id):
+            if record.get("id") == owner_id:
                 return index
 
         return None
 
     @staticmethod
     def __to_dict(owner: Owner) -> dict[str, Any]:
-        return {"id": str(owner.id), "name": owner.name.value}
+        return {"id": owner.id, "name": owner.name.value}
 
     # Любая ошибка разбора превращается в StorageError
     # с понятным сообщением вместо KeyError или ValueError.
     def __to_owner(self, record: dict[str, Any]) -> Owner:
         try:
             return Owner(
-                owner_id=UUID(record["id"]),
+                owner_id=int(record["id"]),
                 name=OwnerName(record["name"]),
             )
         except (KeyError, TypeError, ValueError, ValidationError) as error:
