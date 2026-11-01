@@ -1,0 +1,20 @@
+{
+    "pets": [
+        {
+            "id": "7e3a9c5f-2d1b-4f60-b8e4-5a0c6d9f3b21",
+            "kind": "cat",
+            "owner_id": "4a7c2e9d-1b5f-4d83-a6e0-9f3b8c2d7e10",
+            "nickname": "Мурка",
+            "weight": 4.2,
+            "lives_indoor": true
+        },
+        {
+            "id": "b9d4f0e2-8c6a-4a17-9e5b-3f2d1c7a6e84",
+            "kind": "dog",
+            "owner_id": "d2f8b1a6-6e4c-4b92-8a3f-0c7e9d5b1f48",
+            "nickname": "Рекс",
+            "weight": 18.5,
+            "walks_per_day": 3
+        }
+    ]
+}

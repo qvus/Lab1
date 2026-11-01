@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='utf-8'?>
+<pets>
+    <pet>
+        <id>7e3a9c5f-2d1b-4f60-b8e4-5a0c6d9f3b21</id>
+        <kind>cat</kind>
+        <owner_id>4a7c2e9d-1b5f-4d83-a6e0-9f3b8c2d7e10</owner_id>
+        <nickname>Мурка</nickname>
+        <weight>4.2</weight>
+        <lives_indoor>true</lives_indoor>
+    </pet>
+    <pet>
+        <id>b9d4f0e2-8c6a-4a17-9e5b-3f2d1c7a6e84</id>
+        <kind>dog</kind>
+        <owner_id>d2f8b1a6-6e4c-4b92-8a3f-0c7e9d5b1f48</owner_id>
+        <nickname>Рекс</nickname>
+        <weight>18.5</weight>
+        <walks_per_day>3</walks_per_day>
+    </pet>
+</pets>
